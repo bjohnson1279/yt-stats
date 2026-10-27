@@ -31,3 +31,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+antigravity_ide_setup_and_prompts.md
