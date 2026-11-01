@@ -30,6 +30,10 @@ export interface YouTubeStudioVideoRow {
   averageViewDurationSeconds: number;  // "Average view duration" (parsed to seconds)
   impressions: number;                 // "Impressions"
   impressionsCtrPct: number;           // "Impressions click-through rate (%)"
+  topic?: string;
+  franchise?: string;
+  contentFormat?: string;
+  contentCategory?: string;
 
   // Optional enriched fields (parsed from title or fetched via Spotify / MusicBrainz API)
   parsedSongTitle?: string;

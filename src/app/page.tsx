@@ -25,6 +25,7 @@ import { SequentialDecayChart } from '@/components/SequentialDecayChart';
 import { RepeatArtistScorecardTable } from '@/components/RepeatArtistScorecardTable';
 import { FunnelDiagnosticsTable } from '@/components/FunnelDiagnosticsTable';
 import { AiCopilotPanel } from '@/components/AiCopilotPanel';
+import { ContentExplorer } from '@/components/ContentExplorer';
 
 export default function DashboardPage() {
   const {
@@ -43,8 +44,8 @@ export default function DashboardPage() {
   } = useCatalogAnalytics();
 
   const [activeTab, setActiveTab] = useState<
-    'regression' | 'repeat_artists' | 'sequential_decay' | 'funnel' | 'copilot' | 'methodology'
-  >('regression');
+    'content' | 'regression' | 'repeat_artists' | 'sequential_decay' | 'funnel' | 'copilot' | 'methodology'
+  >('content');
 
   const [isDropzoneExpanded, setIsDropzoneExpanded] = useState(false);
 
@@ -109,6 +110,11 @@ export default function DashboardPage() {
 
       {/* Main Body */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+        <p className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-100">
+          {dataSource === 'sample'
+            ? 'Demo data: illustrative cover-band records, not an authenticated YouTube Studio export. Private metrics and external popularity values are not verified channel measurements.'
+            : 'Analyzing your uploaded CSV. Content grouping works across channel types; artist scorecards, cover sequencing, and AI enrichment remain music-specific tools.'}
+        </p>
         {/* CSV Dropzone (Collapsible or always visible when expanded) */}
         {(isDropzoneExpanded || rawVideos.length === 0) && (
           <div className="animate-in fade-in slide-in-from-top-4 duration-300">
@@ -183,6 +189,10 @@ export default function DashboardPage() {
 
         {/* Tab Navigation Pills */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 border-b border-slate-800">
+          <button onClick={() => setActiveTab('content')}
+            className={`px-4 py-2.5 rounded-xl text-xs font-bold shrink-0 ${activeTab === 'content' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'}`}>
+            Topics &amp; Formats
+          </button>
           <button
             onClick={() => setActiveTab('regression')}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all shrink-0 ${
@@ -204,7 +214,7 @@ export default function DashboardPage() {
             }`}
           >
             <BarChart3 className="w-4 h-4" />
-            <span>Repeat Artist Scorecards ({analytics.repeatArtistScorecards.length})</span>
+            <span>Music: Repeat Artists ({analytics.repeatArtistScorecards.length})</span>
           </button>
 
           <button
@@ -216,7 +226,7 @@ export default function DashboardPage() {
             }`}
           >
             <Layers className="w-4 h-4" />
-            <span>Sequential Decay (#1 &rarr; #5+)</span>
+            <span>Music: Cover Sequencing (#1 &rarr; #5+)</span>
           </button>
 
           <button
@@ -240,7 +250,7 @@ export default function DashboardPage() {
             }`}
           >
             <Bot className="w-4 h-4 text-amber-300" />
-            <span>Executive AI Copilot</span>
+            <span>Music AI Copilot</span>
           </button>
 
           <button
@@ -258,6 +268,7 @@ export default function DashboardPage() {
 
         {/* Tab View Content */}
         <div className="min-h-[500px]">
+          {activeTab === 'content' && <ContentExplorer videos={filteredVideos} />}
           {activeTab === 'regression' && (
             <RegressionScatterPlot
               videos={filteredVideos}

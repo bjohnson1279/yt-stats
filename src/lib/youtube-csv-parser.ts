@@ -212,7 +212,11 @@ function normalizeCsvRow(row: Record<string, any>): YouTubeStudioVideoRow | null
   );
 
   // Extract song and artist using regex
-  const { parsedSongTitle, parsedArtist } = extractSongAndArtistFromTitle(String(videoTitle));
+  const inferredMusic = /\bcover\b/i.test(String(videoTitle))
+    ? extractSongAndArtistFromTitle(String(videoTitle))
+    : {};
+  const metadata = (key: string): string | undefined =>
+    String(normalized[key] ?? '').trim() || undefined;
 
   return {
     videoId: String(videoId).trim(),
@@ -225,8 +229,13 @@ function normalizeCsvRow(row: Record<string, any>): YouTubeStudioVideoRow | null
     averageViewDurationSeconds,
     impressions,
     impressionsCtrPct,
-    parsedSongTitle,
-    parsedArtist,
+    topic: metadata('topic') ?? metadata('subject'),
+    franchise: metadata('franchise') ?? metadata('series'),
+    contentFormat: metadata('content format') ?? metadata('format'),
+    contentCategory: metadata('content category') ?? metadata('category'),
+    parsedSongTitle: metadata('song title') ?? inferredMusic.parsedSongTitle,
+    parsedArtist: metadata('artist') ?? inferredMusic.parsedArtist,
+    macroGenre: metadata('genre'),
   };
 }
 

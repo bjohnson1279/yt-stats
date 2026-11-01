@@ -110,7 +110,9 @@ export function useCatalogAnalytics(
         const matchesTitle = video.videoTitle.toLowerCase().includes(q);
         const matchesArtist = video.parsedArtist?.toLowerCase().includes(q);
         const matchesSong = video.parsedSongTitle?.toLowerCase().includes(q);
-        if (!matchesTitle && !matchesArtist && !matchesSong) return false;
+        const matchesMetadata = [video.topic, video.franchise, video.contentFormat, video.contentCategory]
+          .some((value) => value?.toLowerCase().includes(q));
+        if (!matchesTitle && !matchesArtist && !matchesSong && !matchesMetadata) return false;
       }
       return true;
     });
