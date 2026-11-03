@@ -3,6 +3,34 @@
 An exploratory catalog dashboard for YouTube Studio CSV exports. Run `npm install`
 and `npm run dev` to start locally.
 
+## Harvesting YouTube Channels via API
+
+You can harvest 100% of any public channel's upload catalog directly via the YouTube Data API v3 using `harvest_channel.py`.
+
+### 1. Configure your API key
+Create `.env.local` (automatically ignored by git) in the project root:
+```bash
+YOUTUBE_API_KEY="YOUR_YOUTUBE_DATA_API_V3_KEY"
+```
+
+### 2. Run the harvester
+```bash
+# Harvest any channel by handle
+python harvest_channel.py --channel @WalkOffTheEarth
+
+# Filter strictly to covers (for music/cover channels)
+python harvest_channel.py --channel @FirstToEleven --covers-only
+
+# Specify a custom output CSV path
+python harvest_channel.py --channel @Pomplamoose --output pomplamoose_stats.csv
+```
+
+The script outputs:
+1. `<channel_slug>_full_channel_stats.csv` (contains full catalog view counts, publish dates, durations, and Log10 OLS age regression multipliers).
+2. `<channel_slug>_artist_scorecard.csv` (contains repeat artist/topic performance metrics and win rates).
+
+Both files are formatted to be dropped directly into the web dashboard's CSV dropzone.
+
 ## Content analysis across channel types
 
 The Topics & Formats view groups videos by optional metadata columns added to a

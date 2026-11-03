@@ -22,7 +22,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# python
+__pycache__/
+*.pyc
+
 # local env files
+.env
 .env*.local
 
 # vercel
@@ -32,3 +37,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 antigravity_ide_setup_and_prompts.md
+harvest_full_f211_channel.py
+first_to_eleven_full_channel_covers_stats.csv
+first_to_eleven_260_verified_covers_full_stats.csv
